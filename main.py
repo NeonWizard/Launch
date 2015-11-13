@@ -2,8 +2,12 @@ import pygame, sys
 from pygame.locals import *
 
 import config, rocket
+from peripherals import *
 
 pygame.init()
+
+MOUSE = MouseInfo((0,0))
+KEYS = KeyInfo()
 
 class Launch:
 	def __init__(self):
@@ -26,6 +30,12 @@ class Launch:
 						self.rocket.update()
 
 			self.rocket.draw(self.window)
+
+				elif event.type == MOUSEMOTION:
+					MOUSE.updatePos(event.pos)
+
+				elif event.type == KEYDOWN:
+					KEYS.handle(event.key)
 
 			pygame.display.update()
 

@@ -10,5 +10,5 @@ class Rocket:
 	def draw(self, surface):
 		surface.blit(self.image, (self.screenPosX, self.screenPosY))
 
-	def update(self):
-		self.screenPosY -= 1;
+	def update(self, keys):
+		if keys[]
