@@ -11,3 +11,4 @@ SPILL_COLOR = pygame.Color(255, 255, 0)
 SPILL_IMAGE = pygame.transform.scale(pygame.image.load("images/brabby.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 wesley = "swag"
+anthony = "awesome"
