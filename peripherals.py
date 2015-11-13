@@ -12,12 +12,10 @@ class MouseInfo:
 
 class KeyInfo:
 	def __init__(self):
-		self.keysDown = []
+		pass
 
-	def handle(self, num):
-		self.keysDown.append(Key(num))
-
-class Key:
-	def __init__(self, num):
-		self.char = ALPHABET[num-97]
-		print self.char
+	def toChar(self, num):
+		try:
+			return ALPHABET[num-97]
+		except:
+			print("Non ascii key")

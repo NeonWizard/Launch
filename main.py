@@ -1,8 +1,9 @@
 import pygame, sys
 from pygame.locals import *
 
-import config, rocket
+import config
 from peripherals import *
+from rocket import *
 
 pygame.init()
 
@@ -12,7 +13,7 @@ KEYS = KeyInfo()
 class Launch:
 	def __init__(self):
 		self.window = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
-		self.rocket = rocket.Rocket("images/rocket.png")
+		self.rocket = Rocket("images/rocket.png")
 
 	def main(self):
 		while True:
@@ -25,12 +26,6 @@ class Launch:
 					pygame.quit()
 					sys.exit()
 
-				if event.type == pygame.KEYDOWN:
-					if event.key == K_w:
-						self.rocket.update()
-
-			self.rocket.draw(self.window)
-
 				elif event.type == MOUSEMOTION:
 					MOUSE.updatePos(event.pos)
 
@@ -38,7 +33,6 @@ class Launch:
 					KEYS.handle(event.key)
 
 			pygame.display.update()
-
 
 
 def main():
