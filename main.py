@@ -7,13 +7,13 @@ sys.dont_write_bytecode = True
 # third party modules
 import pygame
 from pygame.locals import *
-sys.dont_write_bytecode = True
 
 # our modules
 import config
 from rocket import *
 from mainmenu import *
 
+# Initiate pygame things
 pygame.init()
 
 class Launch():
@@ -23,7 +23,9 @@ class Launch():
 		pygame.display.set_caption(config.SCREEN_TITLE)
 		config.SCREEN_SIZE = self.window.get_size()
 
-		self.rocket = Rocket("images/rocket.png")
+		self.clock = pygame.time.Clock()
+
+		self.rocket = Rocket("images/ship_normal.png")
 		self.mainmenu = MainMenu()
 
 	# Main loop
@@ -45,8 +47,12 @@ class Launch():
 
 	# Update everything in game
 	def update(self):
+		dt = float(self.clock.get_time()) / float(config.FRAMERATE)
 		keys = pygame.key.get_pressed()
-		self.rocket.update()
+
+		self.rocket.update(dt)
+
+		self.clock.tick(config.FRAMERATE)
 
 	def draw(self, surface):
 		# Fill window to clear it
