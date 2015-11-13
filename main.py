@@ -16,6 +16,10 @@ from mainmenu import *
 # Initiate pygame things
 pygame.init()
 
+FPSFONT = pygame.font.Font(None, 48)
+
+WHITE = pygame.Color(255, 255, 255)
+
 class Launch():
 	def __init__(self):
 		# Initiate pygame window stuff
@@ -24,8 +28,9 @@ class Launch():
 		config.SCREEN_SIZE = self.window.get_size()
 
 		self.clock = pygame.time.Clock()
+		self.clock.tick(config.FRAMERATE)
 
-		self.rocket = Rocket("images/ship_normal.png")
+		self.rocket = Rocket("images/ship.png")
 		self.mainmenu = MainMenu()
 
 	# Main loop
@@ -50,7 +55,7 @@ class Launch():
 		dt = float(self.clock.get_time()) / float(config.FRAMERATE)
 		keys = pygame.key.get_pressed()
 
-		self.rocket.update(dt)
+		self.rocket.update(dt, keys)
 
 		self.clock.tick(config.FRAMERATE)
 
@@ -60,6 +65,9 @@ class Launch():
 
 		# Background
 		surface.fill(config.BACKGROUND_COLOR)
+
+		# Framerate
+		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
 
 		# Draw our objects
 		self.rocket.draw(self.window)
