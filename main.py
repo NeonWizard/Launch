@@ -25,7 +25,7 @@ class Launch():
 
 		self.clock = pygame.time.Clock()
 
-		self.rocket = Rocket("images/rocket.png")
+		self.rocket = Rocket("images/ship_normal.png")
 		self.mainmenu = MainMenu()
 
 	# Main loop
