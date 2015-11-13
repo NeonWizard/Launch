@@ -43,7 +43,7 @@ class Rocket(object):
 	def update(self, dt, keys):
 		# Apply gravity
 		if self.screenPos[1] < config.SCREEN_SIZE[1] - self.size[1]:
-			self.direction, self.velocity = addVectors((self.direction, self.velocity), config.GRAVITY)
+			self.direction, self.velocity = addVectors((self.direction, self.velocity), (config.GRAVITY[0], config.GRAVITY[1]*dt))
 		else:
 			self.direction, self.velocity = 0, 0
 

@@ -8,4 +8,4 @@ BACKGROUND_COLOR = pygame.Color(135, 206, 235)
 
 FRAMERATE = 120
 
-GRAVITY = (math.pi, .1)
+GRAVITY = (math.pi, 2)
