@@ -14,6 +14,13 @@ def rot_center(image, angle):
 
 TRANSPARENCY = pygame.Color(0, 0, 0, 0)
 
+def addVectors(vectorOne, vectorTwo):
+	x = (math.sin(vectorOne[0]) * vectorOne[1]) + (math.sin(vectorTwo[0]) * vectorTwo[1])
+	y = (math.cos(vectorOne[0]) * vectorOne[1]) + (math.cos(vectorTwo[0]) * vectorTwo[1])
+	length = math.hypot(x, y)
+	angle = 0.5 * math.pi - math.atan2(y, x)
+	return (angle, length)
+
 class Rocket(object):
 	def __init__(self, image):
 		image = pygame.image.load(image)
@@ -27,31 +34,35 @@ class Rocket(object):
 
 		self.maxSpeed = 10
 		self.velocity = 0
-		self.rotation = 0
+		self.direction = 0
 		self.screenPos = [config.SCREEN_SIZE[0] / 2 - self.image.get_width() / 2, config.SCREEN_SIZE[1] - self.image.get_height()]
 
 	def draw(self, surface):
 		surface.blit(self.image, self.screenPos)
 
 	def update(self, dt, keys):
+		# Apply gravity
 		if self.screenPos[1] < config.SCREEN_SIZE[1] - self.size[1]:
-			self.velocity -= 3 * dt
+			self.direction, self.velocity = addVectors((self.direction, self.velocity), config.GRAVITY)
 		else:
-			self.screenPos[1] = config.SCREEN_SIZE[1] - self.size[1]
+			self.direction, self.velocity = 0, 0
 
 		if keys[K_UP]:
 			self.velocity += 6 * dt
 			self.velocity = min(self.maxSpeed, self.velocity)
 
 		if keys[K_LEFT]:
-			self.rotation -= 6 * dt
+			self.direction -= .5 * dt
 		elif keys[K_RIGHT]:
-			self.rotation += 6 * dt
+			self.direction += .5 * dt
 
-		self.image = rot_center(self.baseImage, -self.rotation)
+		self.image = rot_center(self.baseImage, -math.degrees(self.direction))
 
-		self.move(dt)
+		self.move()
 
-	def move(self, dt):
-		self.screenPos[0] += math.sin(math.radians(self.rotation)) * self.velocity
-		self.screenPos[1] = min(config.SCREEN_SIZE[1]-self.size[1], self.screenPos[1] - (math.cos(math.radians(self.rotation)) * self.velocity))
+	def move(self):
+		self.screenPos[0] += math.sin(self.direction) * self.velocity
+		self.screenPos[1] -= math.cos(self.direction) * self.velocity
+
+		# Preventing movement below bottom of screen
+		self.screenPos[1] = min(config.SCREEN_SIZE[1]-self.size[1], self.screenPos[1])

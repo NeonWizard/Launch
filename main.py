@@ -50,6 +50,9 @@ class Launch():
 				if event.key == K_ESCAPE:
 					pygame.event.post(pygame.event.Event(QUIT))
 
+				elif event.key == K_r:
+					self.rocket.__init__("images/ship.png")
+
 	# Update everything in game
 	def update(self):
 		dt = float(self.clock.get_time()) / float(config.FRAMERATE)
