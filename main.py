@@ -7,6 +7,7 @@ sys.dont_write_bytecode = True
 # third party modules
 import pygame
 from pygame.locals import *
+sys.dont_write_bytecode = True
 
 # our modules
 import config
