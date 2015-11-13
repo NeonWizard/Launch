@@ -1,44 +1,62 @@
-import pygame, sys
+from __future__ import print_function
+
+# standard library modules
+import sys
+sys.dont_write_bytecode = True
+
+# third party modules
+import pygame
 from pygame.locals import *
 
+# our modules
 import config
-from peripherals import *
 from rocket import *
+from mainmenu import *
 
 pygame.init()
 
-MOUSE = MouseInfo((0,0))
-KEYS = KeyInfo()
-
-class Launch:
+class Launch():
 	def __init__(self):
-		self.window = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
-		self.rocket = Rocket("images/rocket.png")
+		# Initiate pygame window stuff
+		self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+		pygame.display.set_caption(config.SCREEN_TITLE)
+		config.SCREEN_SIZE = self.window.get_size()
 
+		self.rocket = Rocket("images/rocket.png")
+		self.mainmenu = MainMenu()
+
+	# Main loop
 	def main(self):
 		while True:
-			self.window.fill(config.SPILL_COLOR)
-			self.window.blit(config.SPILL_IMAGE, (0, 0))
-			pygame.display.set_caption(config.SCREEN_TITLE)
+			self.handleEvents()
+			self.update()
+			self.draw(self.window)
 
-			for event in pygame.event.get():
-				if event.type == QUIT:
-					pygame.quit()
-					sys.exit()
+	def handleEvents(self):
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				pygame.quit()
+				sys.exit()
 
-				elif event.type == MOUSEMOTION:
-					MOUSE.updatePos(event.pos)
+	# Update everything in game
+	def update(self):
+		keys = pygame.key.get_pressed()
+		self.rocket.update()
 
-				elif event.type == KEYDOWN:
-					KEYS.handle(event.key)
+	def draw(self, surface):
+		# Fill window to clear it
+		surface.fill((0, 0, 0))
 
-			pygame.display.update()
+		# Background
+		surface.fill(config.BACKGROUND_COLOR)
 
+		# Draw our objects
+		self.rocket.draw(self.window)
+
+		pygame.display.update()
 
 def main():
 	launch = Launch()
 	launch.main()
 
-
-if __name__ == "__main__":
-	main()
+main()
