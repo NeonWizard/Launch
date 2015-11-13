@@ -49,7 +49,9 @@ class Launch():
 	def update(self):
 		dt = float(self.clock.get_time()) / float(config.FRAMERATE)
 		keys = pygame.key.get_pressed()
-		self.rocket.update(config.FRAMERATE)
+
+		self.rocket.update(dt)
+
 		self.clock.tick(config.FRAMERATE)
 
 	def draw(self, surface):

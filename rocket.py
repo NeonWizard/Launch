@@ -9,5 +9,8 @@ class Rocket(object):
 	def draw(self, surface):
 		surface.blit(self.image, self.screenPos)
 
-	def update(self):
+	def update(self, dt):
+		self.move(dt)
+
+	def move(self, dt):
 		pass
