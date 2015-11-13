@@ -10,10 +10,12 @@ pygame.init()
 MOUSE = MouseInfo((0,0))
 KEYS = KeyInfo()
 
+
 class Launch:
 	def __init__(self):
 		self.window = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 		self.rocket = Rocket("images/rocket.png")
+		self.key = None
 
 	def main(self):
 		while True:
@@ -30,7 +32,14 @@ class Launch:
 					MOUSE.updatePos(event.pos)
 
 				elif event.type == KEYDOWN:
-					KEYS.handle(event.key)
+					self.key = KEYS.toChar(event.key)
+					self.rocket.moving = True
+
+				elif event.type == KEYUP:
+					self.rocket.moving = False
+
+			self.rocket.update(self.key)
+			self.rocket.draw(self.window)
 
 			pygame.display.update()
 
