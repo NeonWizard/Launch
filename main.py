@@ -41,6 +41,10 @@ class Launch():
 				pygame.quit()
 				sys.exit()
 
+			elif event.type == KEYDOWN:
+				if event.key == K_ESCAPE:
+					pygame.event.post(pygame.event.Event(QUIT))
+
 	# Update everything in game
 	def update(self):
 		dt = float(self.clock.get_time()) / float(config.FRAMERATE)
