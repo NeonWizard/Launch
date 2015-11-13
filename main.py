@@ -1,13 +1,14 @@
 import pygame, sys
 from pygame.locals import *
 
-import config
+import config, rocket
 
 pygame.init()
 
 class Launch:
 	def __init__(self):
 		self.window = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+		self.rocket = rocket.Rocket("images/rocket.png")
 
 	def main(self):
 		while True:
@@ -19,6 +20,12 @@ class Launch:
 				if event.type == QUIT:
 					pygame.quit()
 					sys.exit()
+
+				if event.type == pygame.KEYDOWN:
+					if event.key == K_w:
+						self.rocket.update()
+
+			self.rocket.draw(self.window)
 
 			pygame.display.update()
 
