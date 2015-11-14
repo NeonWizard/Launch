@@ -24,14 +24,23 @@ def addVectors(vectorOne, vectorTwo):
 
 class Rocket(object):
 	def __init__(self, image):
-		image = pygame.transform.scale(pygame.image.load(image), (100, 200))
-		pblll = ((image.get_height() / 2) ** 2 + (image.get_width() / 2) ** 2) ** .5
-		t = pblll * 2
-		self.baseImage = pygame.Surface((t, t)).convert_alpha()
+		scale = 1/3
+		image = pygame.image.load(image)
+		image = pygame.transform.scale(image, (int(image.get_width() * scale), int(image.get_height() * scale)))
+
+		diag = math.sqrt((image.get_height() / 2) ** 2 + (image.get_width() / 2) ** 2) * 2
+
+		self.baseImage = pygame.Surface((diag, diag)).convert_alpha()
 		self.baseImage.fill(TRANSPARENCY)
-		self.baseImage.blit(image, ((t-image.get_width())/2, (t-image.get_height())/2))
+		self.baseImage.blit(image, ((diag - image.get_width()) / 2, (diag - image.get_height()) / 2))
+
 		self.image = self.baseImage.copy()
+
 		self.size = (self.image.get_width(), self.image.get_height())
+
+		self.flameImage = pygame.image.load("images/fire.png")
+		self.flameImage = pygame.transform.scale(self.flameImage, (int(self.flameImage.get_width() * scale), int(self.flameImage.get_height() * scale)))
+		self.baseImage.blit(self.flameImage, (0, 0))
 
 		self.maxSpeed = 5
 		self.velocity = 0
