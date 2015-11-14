@@ -84,8 +84,8 @@ class Launch():
 	def drawbackground(self, surface, stage):
 		if stage == 1: # sky
 			surface.fill((135, 206, 235))
-			#pygame.draw.circle(surface, (50, 255, 50), map(int, GameCamera.adjust_pos((config.SCREEN_SIZE[0] / 2, config.SCREEN_SIZE[1] - 75))), 100)
-			surface.blit(self.bleh, (0, 0))
+			# pygame.draw.circle(surface, (50, 255, 50), map(int, GameCamera.adjust_pos((config.SCREEN_SIZE[0] / 2, config.SCREEN_SIZE[1] - 75))), 100)
+			surface.blit(self.bleh, GameCamera.adjust_pos(0, 0))
 		elif stage == 2: # night
 			# surface.fill((3, 11, 20))
 			surface.fill((50, 50, 50))
