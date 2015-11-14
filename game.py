@@ -129,7 +129,7 @@ class Launch():
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
 		surface.blit(FPSFONT.render("Fuel: " + str(int(round(self.rocket.fuelPercent, 2) * 100)) + "%", True, WHITE), (0, 50))
 		surface.blit(FPSFONT.render("Height: " + str(int(self.rocket.pos[1])), True, WHITE), (0, 100))
-		surface.blit(FPSFONT.render("Layer: " + str(int(self.layer)), True, WHITE), (0, 150))
+		surface.blit(FPSFONT.render("Highest Height: " + str(config.highestHight), True, WHITE), (0, 150))
 
 		# Draw our objects
 		self.rocket.draw(self.window)

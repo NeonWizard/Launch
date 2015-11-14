@@ -100,6 +100,8 @@ class Rocket(object):
 
 		self.move()
 
+		config.highestHight = int(max(config.highestHight, self.pos[1]))
+
 	def move(self):
 		self.pos[0] += math.sin(self.direction) * self.velocity
 		self.pos[1] += math.cos(self.direction) * self.velocity

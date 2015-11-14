@@ -10,3 +10,5 @@ FRAMERATE = 120
 GRAVITY = (math.pi, 1)
 
 DEBUG = False
+
+highestHight = 0
