@@ -11,7 +11,6 @@ from pygame.locals import *
 # our modules
 import config
 from rocket import *
-from mainmenu import *
 
 # Initiate pygame things
 pygame.mixer.pre_init(22050, -16, 2, 512)
