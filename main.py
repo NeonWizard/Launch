@@ -4,7 +4,7 @@ import pygame, sys, random
 from pygame.locals import *
 import game
 
-import config, button
+import config, button, credits
 
 pygame.mixer.pre_init(22050, -16, 2, 512)
 pygame.init()
@@ -13,15 +13,17 @@ def enterGame(menu):
 	del menu
 	game.main()
 
+def openCredits(menu):
+	del menu
+	credits.main()
+
 class MainMenu(object):
 	def __init__(self, buttons):
 		self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-		self.mousePos = (0, 0)
 		self.clock = pygame.time.Clock()
 		self.clock.tick(config.FRAMERATE)
-		config.SCREEN_SIZE = self.window.get_size()
 
-		#pygame.mixer.music.play(-1)
+		pygame.mixer.music.play(-1)
 
 		image = pygame.image.load("images/buttons.png")
 		buttonimage = image.subsurface((0, 0, image.get_width(), image.get_height() / 2))
@@ -32,7 +34,7 @@ class MainMenu(object):
 
 		for i in range(0, len(buttons)):
 			data = buttons[i]
-			btn = button.Button(buttonimage, buttonimagehovered, (config.SCREEN_SIZE[0] / 2 - buttonimage.get_width() / 2, config.SCREEN_SIZE[1] / 2 - buttonimage.get_height() / 2 + (50 * i)))
+			btn = button.Button(buttonimage, buttonimagehovered, (self.window.get_width() / 2 - buttonimage.get_width() / 2, self.window.get_height() / 2 - buttonimage.get_height() / 2 + (50 * i)))
 			btn.set_text(data[0], buttonfont, (0, 0, 0))
 			btn.onclick = data[1]
 			self.buttons.append(btn)
@@ -88,7 +90,7 @@ class MainMenu(object):
 			for button in self.buttons:
 				button.draw(self.window)
 
-			self.window.blit(self.title, (config.SCREEN_SIZE[0] / 2 - self.title.get_width() / 2, config.SCREEN_SIZE[1] / 4 - self.title.get_height() / 2))
+			self.window.blit(self.title, (self.window.get_width() / 2 - self.title.get_width() / 2, self.window.get_height() / 4 - self.title.get_height() / 2))
 
 			pygame.display.update()
 			self.clock.tick(config.FRAMERATE)
@@ -97,7 +99,7 @@ def main():
 	pygame.mixer.music.stop()
 	pygame.mixer.music.load("music/memento.mp3")
 	pygame.mixer.music.set_volume(.4)
-	menubuttons = [["Play", enterGame], ["Credits", None], ["Quit", lambda menu: pygame.event.post(pygame.event.Event(QUIT))]]
+	menubuttons = [["Play", enterGame], ["Credits", openCredits], ["Quit", lambda menu: pygame.event.post(pygame.event.Event(QUIT))]]
 	menu = MainMenu(menubuttons)
 	menu.loop()
 

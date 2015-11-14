@@ -24,7 +24,7 @@ FPSFONT = pygame.font.Font(None, 48)
 
 WHITE = pygame.Color(255, 255, 255)
 
-sound = pygame.mixer.Sound("sound/engine.wav")
+# sound = pygame.mixer.Sound("sound/engine.wav")
 
 def enterMenu(game):
 	del game
@@ -42,11 +42,13 @@ class Launch():
 
 		self.rocket = Rocket("images/ship.png")
 
-		self.initPowerUp()
-
 		self.layers = [[0, 0] for _ in range(0, 1000)]
 
-		#pygame.mixer.music.play(-1)
+		self.fuelCans = []
+		fuelCanImage = pygame.image.load("images/fuel.png")
+		self.fuelCanImage = pygame.transform.scale(fuelCanImage, (int(fuelCanImage.get_width() / 8), int(fuelCanImage.get_height() / 8)))
+
+		pygame.mixer.music.play(-1)
 
 	# Main loop
 	def main(self):
@@ -70,12 +72,12 @@ class Launch():
 
 				elif event.key == K_UP:
 					if not pygame.mixer.get_busy():
-						#sound.play(-1)
+						# sound.play(-1)
 						pass
 
 			elif event.type == KEYUP:
 				if event.key == K_UP:
-					#sound.stop()
+					# sound.stop()
 					pass
 
 	# Update everything in game
@@ -104,18 +106,16 @@ class Launch():
 				if layer == 0 and i2 != 0: continue
 				if self.layers[layer-i2] == [0, 0]:
 					self.layers[layer-i2] = terraingen.generateLayer(layer-i2, config.SCREEN_SIZE, 10)
+					rect = self.layers[layer-i2][0].get_rect()
+					self.generatePowerUps(GameCamera.adjust_pos(0, 0), GameCamera.adjust_pos(surface.get_size()))
 				layersurf = self.layers[layer-i2][0]
 				if i == -1 and i2 == -1:
 					surface.fill(self.layers[layer][1])
 				surface.blit(layersurf, GameCamera.adjust_pos(surface.get_width() * (i - horizontalOffset), -(self.window.get_height() * layer) + self.window.get_height() * i2))
 
-	def initPowerUp(self):
-		fuelCanImage = pygame.image.load("images/fuel.png")
-		fuelCanImage = pygame.transform.scale(fuelCanImage, (int(fuelCanImage.get_width() / 8), int(fuelCanImage.get_height() / 8)))
-
-		self.fuelCans = []
-		for i in range(0, 5):
-			self.fuelCans.append(powerup.PowerUp(fuelCanImage, [random.randrange(0, config.SCREEN_SIZE[0] - fuelCanImage.get_width()), random.randrange(0, config.SCREEN_SIZE[1] - fuelCanImage.get_height())]))
+	def generatePowerUps(self, minpos, maxpos):
+		for i in range(0, random.randrange(0, 4)):
+			self.fuelCans.append(powerup.PowerUp(self.fuelCanImage, [int(random.uniform(minpos[0], maxpos[0])), int(random.uniform(minpos[1], maxpos[1] - 150))]))
 
 	def draw(self, surface):
 		# Background
@@ -123,7 +123,7 @@ class Launch():
 
 		# Status messages
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
-		surface.blit(FPSFONT.render("FUEL: " + str(int(round(self.rocket.fuelPercent, 2) * 100)) + "%", True, WHITE), (0, 50))
+		surface.blit(FPSFONT.render("Fuel: " + str(int(round(self.rocket.fuelPercent, 2) * 100)) + "%", True, WHITE), (0, 50))
 		surface.blit(FPSFONT.render("Height: " + str(int(self.rocket.pos[1])), True, WHITE), (0, 100))
 		surface.blit(FPSFONT.render("Layer: " + str(int(self.layer)), True, WHITE), (0, 150))
 

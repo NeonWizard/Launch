@@ -49,9 +49,10 @@ class Rocket(object):
 		self.velocity = 0
 		self.direction = 0
 		self.drawpos = [0, 0]
-		self.pos = [0, config.SCREEN_SIZE[1]*21]
+		self.pos = [0, 0]
 
 		self.fuel = 1000
+		self.startingFuel = 1000
 		self.fullFuel = self.fuel
 		self.fuelPercent = 1
 
