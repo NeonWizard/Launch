@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 # standard library modules
-import sys, math
+import sys, math, random
 sys.dont_write_bytecode = True
 
 # third party modules
@@ -77,14 +77,22 @@ class Launch():
 
 		self.clock.tick(config.FRAMERATE)
 
+	def drawbackground(self, surface, stage):
+		if stage == 1: # sky
+			surface.fill((135, 206, 235))
+			pygame.draw.circle(surface, (50, 255, 50), map(int, GameCamera.adjust_pos((config.SCREEN_SIZE[0] / 2, config.SCREEN_SIZE[1] - 75))), 100)
+		elif stage == 2: # night
+			# surface.fill((3, 11, 20))
+			surface.fill((50, 50, 50))
+			for i in range(0, 20):
+				pos = (random.randrange(0, surface.get_width()), random.randrange(0, surface.get_height()))
+				pygame.draw.circle(surface, (255, 255, 255), pos, 1)
+
 	def draw(self, surface):
-		# Fill window to clear it
-		surface.fill(config.BACKGROUND_COLOR)
-
 		# Background
-		surface.blit(self.backgroundImage, GameCamera.adjust_pos((0, config.SCREEN_SIZE[1]-self.backgroundImage.get_height())))
+		self.drawbackground(surface, 1)
 
-		# Framerate
+		# Status messages
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
 		surface.blit(FPSFONT.render("FUEL: " + str(int(self.rocket.fuel)), True, WHITE), (0, 50))
 		surface.blit(FPSFONT.render("Height: " + str(int(self.rocket.pos[1])), True, WHITE), (0, 100))
