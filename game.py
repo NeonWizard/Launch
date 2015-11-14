@@ -119,6 +119,9 @@ class Launch():
 			self.fuelCans.append(powerup.PowerUp(self.fuelCanImage, pos))
 
 	def draw(self, surface):
+		layer = int(round(float(GameCamera.pos[1]) / self.window.get_height()))
+		self.window.fill(self.layers[layer][1])
+
 		# Background
 		self.drawbackground(surface)
 
