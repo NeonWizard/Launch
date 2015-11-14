@@ -97,7 +97,7 @@ def main():
 	pygame.mixer.music.stop()
 	pygame.mixer.music.load("music/memento.mp3")
 	pygame.mixer.music.set_volume(.4)
-	menubuttons = [["Play", enterGame], ["Quit", lambda menu: pygame.event.post(pygame.event.Event(QUIT))]]
+	menubuttons = [["Play", enterGame], ["Credits", None], ["Quit", lambda menu: pygame.event.post(pygame.event.Event(QUIT))]]
 	menu = MainMenu(menubuttons)
 	menu.loop()
 

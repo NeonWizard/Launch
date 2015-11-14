@@ -66,7 +66,7 @@ class Launch():
 					enterMenu(self)
 
 				elif event.key == K_r:
-					self.rocket.__init__("dev/images/patesship.png")
+					self.rocket.__init__("images/ship.png")
 
 				elif event.key == K_UP:
 					if not pygame.mixer.get_busy():
