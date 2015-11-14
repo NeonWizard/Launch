@@ -1,6 +1,8 @@
 import pygame
 import random
 
+TRANSPARENCY = (0, 0, 0, 0)
+
 def generateHills(surfSize, hills, background):
 	surf = pygame.Surface(surfSize).convert_alpha()
 
@@ -29,20 +31,22 @@ def generateHills(surfSize, hills, background):
 
 def generateLayer(layer, surfSize, hills):
 	if layer == 0: # hills
-		return generateHills(surfSize, hills, (155, 255, 255))
+		return generateHills(surfSize, hills, (155, 255, 255)), (155, 255, 255)
 	elif layer <= 20: # 1
-		surf = pygame.Surface(surfSize)
-		surf.fill((155-layer*4, 255-layer*10, 255-layer*8))
-		return surf
+		surf = pygame.Surface(surfSize).convert_alpha()
+		surf.fill(TRANSPARENCY)
+		#surf.fill((155-layer*4, 255-layer*10, 255-layer*8))
+		return surf, (155-layer*4, 255-layer*10, 255-layer*8)
 	elif layer <= 30: # star intro
-		surf = pygame.Surface(surfSize)
-		surf.fill((71, 45, 87))
+		surf = pygame.Surface(surfSize).convert_alpha()
+		surf.fill(TRANSPARENCY)
+		#surf.fill((71, 45, 87))
 
 		for i in range(50):
 			pygame.draw.circle(surf, (255,255,255), (int(random.gauss(surfSize[0]/2, surfSize[0])), int(random.gauss(surfSize[1]/2, surfSize[1]))), 3)
 
-		return surf
+		return surf, (71, 45, 87)
 	elif layer <= 100:
 		surf = pygame.Surface(surfSize)
 		surf.fill((255, 255, 0))
-		return surf
+		return surf, (255, 255, 0)
