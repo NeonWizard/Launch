@@ -44,7 +44,7 @@ class MainMenu(object):
 
 	def loop(self):
 		while True:
-			self.window.fill((200,200,200))
+			self.window.fill((200, 200, 200))
 
 			dt = float(self.clock.get_time()) / float(config.FRAMERATE)
 
