@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 # standard library modules
-import sys
+import sys, math
 sys.dont_write_bytecode = True
 
 # third party modules
@@ -34,7 +34,9 @@ class Launch():
 		self.clock.tick(config.FRAMERATE)
 
 		self.rocket = Rocket("images/ship.png")
-		self.backgroundImage = pygame.transform.scale(pygame.image.load("images/ground.png"), self.window.get_size())
+		ground = pygame.image.load("images/ground.png")
+		scale = self.window.get_width() / float(ground.get_width())
+		self.backgroundImage = pygame.transform.scale(ground, (int(math.ceil(scale * ground.get_width())), int(math.ceil(scale * ground.get_height()))))
 
 	# Main loop
 	def main(self):
@@ -77,12 +79,10 @@ class Launch():
 
 	def draw(self, surface):
 		# Fill window to clear it
-		surface.fill((0, 0, 0))
-
-		# Background
 		surface.fill(config.BACKGROUND_COLOR)
 
-		surface.blit(self.backgroundImage, GameCamera.adjust_pos((0, 0)))
+		# Background
+		surface.blit(self.backgroundImage, GameCamera.adjust_pos((0, config.SCREEN_SIZE[1]-self.backgroundImage.get_height())))
 
 		# Framerate
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
