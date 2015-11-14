@@ -24,7 +24,7 @@ def addVectors(vectorOne, vectorTwo):
 
 class Rocket(object):
 	def __init__(self, image):
-		scale = 1/3
+		scale = 0.33
 		image = pygame.image.load(image)
 		image = pygame.transform.scale(image, (int(image.get_width() * scale), int(image.get_height() * scale)))
 
