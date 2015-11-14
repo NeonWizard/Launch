@@ -44,15 +44,17 @@ class Rocket(object):
 		self.maxSpeed = 5
 		self.velocity = 0
 		self.direction = 0
+		self.drawpos = [0, 0]
 		self.pos = [0, 0]
 
 		self.fuel = 1000
 
 	def draw(self, surface):
 		if self.pos[1] < config.SCREEN_SIZE[1]/2-self.image.get_height()/2:
-			surface.blit(self.image, (config.SCREEN_SIZE[0]/2-self.image.get_width()/2, max(config.SCREEN_SIZE[1]/2-self.image.get_height()/2, config.SCREEN_SIZE[1]-self.image.get_height()-self.pos[1])))
+			self.drawpos = (config.SCREEN_SIZE[0]/2-self.image.get_width()/2, max(config.SCREEN_SIZE[1]/2-self.image.get_height()/2, config.SCREEN_SIZE[1]-self.image.get_height()-self.pos[1]))
 		else:
-			surface.blit(self.image, (config.SCREEN_SIZE[0]/2-self.image.get_width()/2, config.SCREEN_SIZE[1]/2-self.image.get_height()/2))
+			self.drawpos = (config.SCREEN_SIZE[0]/2-self.image.get_width()/2, config.SCREEN_SIZE[1]/2-self.image.get_height()/2)
+		surface.blit(self.image, self.drawpos)
 
 	def update(self, dt, keys):
 		# Apply gravity

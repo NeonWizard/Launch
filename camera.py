@@ -1,3 +1,6 @@
+import pygame
+from pygame.locals import *
+
 # All things visually relative
 class Camera(object):
 	def __init__(self):

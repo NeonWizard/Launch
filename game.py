@@ -82,6 +82,12 @@ class Launch():
 
 		self.rocket.update(dt, keys)
 
+		rocketRect = pygame.Rect(self.rocket.drawpos[0], self.rocket.drawpos[1], self.rocket.image.get_width(), self.rocket.image.get_height())
+		for fuelCan in self.fuelCans:
+			if fuelCan.checkCollide(rocketRect):
+				self.fuelCans.remove(fuelCan)
+				self.rocket.fuel += 100
+
 		self.clock.tick(config.FRAMERATE)
 
 	def drawbackground(self, surface, stage):
@@ -96,7 +102,12 @@ class Launch():
 				pygame.draw.circle(surface, (255, 255, 255), pos, 1)
 
 	def initPowerUp(self):
-		self.fuel = powerup.PowerUp(self.window, pygame.image.load("images/fuel.png"))
+		fuelCanImage = pygame.image.load("images/fuel.png")
+		fuelCanImage = pygame.transform.scale(fuelCanImage, (int(fuelCanImage.get_width() / 8), int(fuelCanImage.get_height() / 8)))
+
+		self.fuelCans = []
+		for i in range(0, 5):
+			self.fuelCans.append(powerup.PowerUp(fuelCanImage, [random.randrange(0, config.SCREEN_SIZE[0] - fuelCanImage.get_width()), random.randrange(0, config.SCREEN_SIZE[1] - fuelCanImage.get_height())]))
 
 	def draw(self, surface):
 		# Background
@@ -110,7 +121,8 @@ class Launch():
 		# Draw our objects
 		self.rocket.draw(self.window)
 
-		self.fuel.draw()
+		for fuelCan in self.fuelCans:
+			fuelCan.draw(self.window)
 
 		pygame.display.update()
 
