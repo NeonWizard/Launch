@@ -106,16 +106,17 @@ class Launch():
 				if layer == 0 and i2 != 0: continue
 				if self.layers[layer-i2] == [0, 0]:
 					self.layers[layer-i2] = terraingen.generateLayer(layer-i2, config.SCREEN_SIZE, 10)
-					rect = self.layers[layer-i2][0].get_rect()
-					self.generatePowerUps(GameCamera.adjust_pos(0, 0), GameCamera.adjust_pos(surface.get_size()))
+					self.generatePowerUps((0, self.window.get_height() * (layer - 1)), (self.window.get_width(), self.window.get_height() * (layer + 0)))
 				layersurf = self.layers[layer-i2][0]
 				if i == -1 and i2 == -1:
 					surface.fill(self.layers[layer][1])
 				surface.blit(layersurf, GameCamera.adjust_pos(surface.get_width() * (i - horizontalOffset), -(self.window.get_height() * layer) + self.window.get_height() * i2))
 
 	def generatePowerUps(self, minpos, maxpos):
-		for i in range(0, random.randrange(0, 4)):
-			self.fuelCans.append(powerup.PowerUp(self.fuelCanImage, [int(random.uniform(minpos[0], maxpos[0])), int(random.uniform(minpos[1], maxpos[1] - 150))]))
+		cnt = random.randrange(0, 4)
+		for i in range(0, cnt):
+			pos = [int(random.uniform(minpos[0], maxpos[0])), int(random.uniform(minpos[1], maxpos[1] - 150))]
+			self.fuelCans.append(powerup.PowerUp(self.fuelCanImage, pos))
 
 	def draw(self, surface):
 		# Background

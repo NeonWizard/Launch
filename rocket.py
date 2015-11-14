@@ -52,7 +52,6 @@ class Rocket(object):
 		self.pos = [0, 0]
 
 		self.fuel = 1000
-		self.startingFuel = 1000
 		self.fullFuel = self.fuel
 		self.fuelPercent = 1
 
