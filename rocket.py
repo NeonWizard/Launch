@@ -32,15 +32,14 @@ class Rocket(object):
 
 		self.baseImage = pygame.Surface((diag, diag)).convert_alpha()
 		self.baseImage.fill(TRANSPARENCY)
-		self.baseImage.blit(image, ((diag - image.get_width()) / 2, (diag - image.get_height()) / 2))
-
-		self.image = self.baseImage.copy()
-
-		self.size = (self.image.get_width(), self.image.get_height())
 
 		self.flameImage = pygame.image.load("images/fire.png")
 		self.flameImage = pygame.transform.scale(self.flameImage, (int(self.flameImage.get_width() * scale), int(self.flameImage.get_height() * scale)))
-		self.baseImage.blit(self.flameImage, (0, 0))
+
+		self.baseImage.blit(self.flameImage, (int(self.baseImage.get_width() / 2 - self.flameImage.get_width() / 2), int(image.get_height() * 0.748)))
+		self.baseImage.blit(image, ((diag - image.get_width()) / 2, (diag - image.get_height()) / 2))
+
+		self.image = self.baseImage.copy()
 
 		self.maxSpeed = 5
 		self.velocity = 0
@@ -50,10 +49,10 @@ class Rocket(object):
 		self.fuel = 1000
 
 	def draw(self, surface):
-		if self.pos[1] < config.SCREEN_SIZE[1]/2-self.size[1]/2:
-			surface.blit(self.image, (config.SCREEN_SIZE[0]/2-self.size[0]/2, max(config.SCREEN_SIZE[1]/2-self.size[1]/2, config.SCREEN_SIZE[1]-self.size[1]-self.pos[1])))
+		if self.pos[1] < config.SCREEN_SIZE[1]/2-self.image.get_height()/2:
+			surface.blit(self.image, (config.SCREEN_SIZE[0]/2-self.image.get_width()/2, max(config.SCREEN_SIZE[1]/2-self.image.get_height()/2, config.SCREEN_SIZE[1]-self.image.get_height()-self.pos[1])))
 		else:
-			surface.blit(self.image, (config.SCREEN_SIZE[0]/2-self.size[0]/2, config.SCREEN_SIZE[1]/2-self.size[1]/2))
+			surface.blit(self.image, (config.SCREEN_SIZE[0]/2-self.image.get_width()/2, config.SCREEN_SIZE[1]/2-self.image.get_height()/2))
 
 	def update(self, dt, keys):
 		# Apply gravity

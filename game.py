@@ -43,6 +43,8 @@ class Launch():
 		self.rocket = Rocket("images/ship.png")
 		self.hillSurf = terraingen.generateHills(config.SCREEN_SIZE, 10)
 
+		self.initPowerUp()
+
 	# Main loop
 	def main(self):
 		while True:
@@ -93,9 +95,8 @@ class Launch():
 				pos = (random.randrange(0, surface.get_width()), random.randrange(0, surface.get_height()))
 				pygame.draw.circle(surface, (255, 255, 255), pos, 1)
 
-	def drawPowerUp(self):
+	def initPowerUp(self):
 		self.fuel = powerup.PowerUp(self.window, pygame.image.load("images/fuel.png"))
-		self.fuel.draw()
 
 	def draw(self, surface):
 		# Background
@@ -109,6 +110,8 @@ class Launch():
 
 		# Draw our objects
 		self.rocket.draw(self.window)
+
+		self.fuel.draw()
 
 		pygame.display.update()
 
