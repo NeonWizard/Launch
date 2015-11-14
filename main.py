@@ -1,118 +1,86 @@
 from __future__ import print_function
 
-# standard library modules
-import sys, math, random
-sys.dont_write_bytecode = True
-
-# third party modules
-import pygame
+import pygame, sys, random
 from pygame.locals import *
+import game
 
-# our modules
-import config
-from rocket import *
-from camera import GameCamera
-import terraingen
-import mainmenu
+import config, button
 
-# Initiate pygame things
-pygame.mixer.pre_init(22050, -16, 2, 512)
 pygame.init()
 
-FPSFONT = pygame.font.Font(None, 48)
-
-WHITE = pygame.Color(255, 255, 255)
-
-sound = pygame.mixer.Sound("sound/engine.wav")
-
-class Launch():
-	def __init__(self):
-		# Initiate pygame window stuff
+class MainMenu(object):
+	def __init__(self, buttons):
 		self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-		pygame.display.set_caption(config.SCREEN_TITLE)
-		config.SCREEN_SIZE = self.window.get_size()
-
+		self.mousePos = (0,0)
 		self.clock = pygame.time.Clock()
 		self.clock.tick(config.FRAMERATE)
+		config.SCREEN_SIZE = self.window.get_size()
 
-		self.rocket = Rocket("images/ship.png")
-		ground = pygame.image.load("images/ground.png")
-		scale = self.window.get_width() / float(ground.get_width())
-		#self.backgroundImage = pygame.transform.scale(ground, (int(math.ceil(scale * ground.get_width())), int(math.ceil(scale * ground.get_height()))))
-		self.bleh = terraingen.generateHills(config.SCREEN_SIZE, 10)
+		image = pygame.image.load("images/buttons.png")
+		buttonimage = image.subsurface((0, 0, image.get_width(), image.get_height() / 2))
+		buttonimagehovered = image.subsurface((0, image.get_height() / 2, image.get_width(), image.get_height() / 2))
+		buttonfont = pygame.font.Font("freesansbold.ttf", 20)
+		
+		self.buttons = []
 
-	# Main loop
-	def main(self):
+		for i in range(0, len(buttons)):
+			data = buttons[i]
+			btn = button.Button(buttonimage, buttonimagehovered, (config.SCREEN_SIZE[0] / 2 - buttonimage.get_width() / 2, config.SCREEN_SIZE[1] / 2 - buttonimage.get_height() / 2 + (50 * i)))
+			btn.set_text(data[0], buttonfont, (0, 0, 0))
+			btn.onclick = data[1]
+			self.buttons.append(btn)
+
+		self.titleFont = pygame.font.Font("freesansbold.ttf", 32)
+		self.titleMsg = self.titleFont.render("Rocket Ascent", True, (0, 0, 0))
+
+		self.rockets = []
+		for i in range(0, 20):
+			data = (pygame.transform.scale(pygame.image.load("images/ship.png"), (20, 40)), [random.randrange(0, self.window.get_width()), random.randrange(0, self.window.get_height())])
+			self.rockets.append(data)
+
+	def loop(self):
 		while True:
-			self.handleEvents()
-			self.update()
-			self.draw(self.window)
+			self.window.fill((200,200,200))
 
-	def handleEvents(self):
-		for event in pygame.event.get():
-			if event.type == QUIT:
-				pygame.quit()
-				sys.exit()
+			dt = float(self.clock.get_time()) / float(config.FRAMERATE)
 
-			elif event.type == KEYDOWN:
-				if event.key == K_ESCAPE:
-					self.reset()
-					mainmenu.main()
+			for event in pygame.event.get():
+				if event.type == QUIT:
+					pygame.quit()
+					sys.exit()
 
-				elif event.key == K_r:
-					self.rocket.__init__("dev/patesship.png")
+				elif event.type == KEYDOWN:
+					if event.key == K_ESCAPE:
+						pygame.event.post(pygame.event.Event(QUIT))
 
-				elif event.key == K_UP:
-					if not pygame.mixer.get_busy():
-						#sound.play(-1)
-						pass
+				elif event.type == MOUSEMOTION:
+					for button in self.buttons:
+						button.checkHover(event.pos)
 
-			elif event.type == KEYUP:
-				if event.key == K_UP:
-					#sound.stop()
-					pass
+				elif event.type == MOUSEBUTTONDOWN:
+					for button in self.buttons:
+						if button.hovering:
+							button.onclick()
 
-	# Update everything in game
-	def update(self):
-		dt = float(self.clock.get_time()) / float(config.FRAMERATE)
-		keys = pygame.key.get_pressed()
+			for data in self.rockets:
+				img, pos = data[0], data[1]
+				pos[1] -= 50 * dt
+				if (pos[1] + img.get_height()) < 0:
+					pos[1] = self.window.get_height() + img.get_height()
+				self.window.blit(img, pos)
 
-		self.rocket.update(dt, keys)
+			for button in self.buttons:
+				button.draw(self.window)
 
-		self.clock.tick(config.FRAMERATE)
+			self.window.blit(self.titleMsg, (config.SCREEN_SIZE[0] / 2 - self.titleMsg.get_width() / 2, config.SCREEN_SIZE[1] / 4 - self.titleMsg.get_height() / 2))
 
-	def drawbackground(self, surface, stage):
-		if stage == 1: # sky
-			surface.fill((135, 206, 235))
-			#pygame.draw.circle(surface, (50, 255, 50), map(int, GameCamera.adjust_pos((config.SCREEN_SIZE[0] / 2, config.SCREEN_SIZE[1] - 75))), 100)
-			surface.blit(self.bleh, (0, 0))
-		elif stage == 2: # night
-			# surface.fill((3, 11, 20))
-			surface.fill((50, 50, 50))
-			for i in range(0, 20):
-				pos = (random.randrange(0, surface.get_width()), random.randrange(0, surface.get_height()))
-				pygame.draw.circle(surface, (255, 255, 255), pos, 1)
-
-	def draw(self, surface):
-		# Background
-		self.drawbackground(surface, 1)
-
-		# Status messages
-		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
-		surface.blit(FPSFONT.render("FUEL: " + str(int(self.rocket.fuel)), True, WHITE), (0, 50))
-		surface.blit(FPSFONT.render("Height: " + str(int(self.rocket.pos[1])), True, WHITE), (0, 100))
-
-		# Draw our objects
-		self.rocket.draw(self.window)
-
-		pygame.display.update()
-
-	def reset(self):
-		pass
+			pygame.display.update()
+			self.clock.tick(config.FRAMERATE)
 
 def main():
-	launch = Launch()
-	launch.main()
+	menubuttons = [["Play", game.main], ["Quit", lambda x=None: pygame.event.post(pygame.event.Event(QUIT))]]
+	menu = MainMenu(menubuttons)
+	menu.loop()
 
 if __name__ == "__main__":
 	main()
