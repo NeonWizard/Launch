@@ -14,6 +14,7 @@ from rocket import *
 from camera import GameCamera
 import terraingen
 import main as mainmenu
+import powerup
 
 # Initiate pygame things
 pygame.mixer.pre_init(22050, -16, 2, 512)
@@ -92,6 +93,10 @@ class Launch():
 				pos = (random.randrange(0, surface.get_width()), random.randrange(0, surface.get_height()))
 				pygame.draw.circle(surface, (255, 255, 255), pos, 1)
 
+	def drawPowerUp(self):
+		self.fuel = powerup.PowerUp(self.window)
+		self.fuel.draw()
+
 	def draw(self, surface):
 		# Background
 		self.drawbackground(surface, 1)
@@ -103,6 +108,8 @@ class Launch():
 
 		# Draw our objects
 		self.rocket.draw(self.window)
+
+		self.drawPowerUp()
 
 		pygame.display.update()
 
