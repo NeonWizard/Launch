@@ -8,6 +8,10 @@ import config, button
 
 pygame.init()
 
+def enterGame(menu):
+	del menu
+	game.main()
+
 class MainMenu(object):
 	def __init__(self, buttons):
 		self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -20,7 +24,7 @@ class MainMenu(object):
 		buttonimage = image.subsurface((0, 0, image.get_width(), image.get_height() / 2))
 		buttonimagehovered = image.subsurface((0, image.get_height() / 2, image.get_width(), image.get_height() / 2))
 		buttonfont = pygame.font.Font("freesansbold.ttf", 20)
-		
+
 		self.buttons = []
 
 		for i in range(0, len(buttons)):
@@ -30,8 +34,8 @@ class MainMenu(object):
 			btn.onclick = data[1]
 			self.buttons.append(btn)
 
-		self.titleFont = pygame.font.Font("freesansbold.ttf", 32)
-		self.titleMsg = self.titleFont.render("Rocket Ascent", True, (0, 0, 0))
+		titleFont = pygame.font.Font("fonts/redrocket.ttf", 60)
+		self.title = titleFont.render("Rocket Ascent", True, (0, 0, 0))
 
 		self.rockets = []
 		for i in range(0, 5):
@@ -50,13 +54,13 @@ class MainMenu(object):
 					sys.exit()
 
 				elif event.type == KEYDOWN:
-					if event.key == K_ESCAPE:
-						pygame.event.post(pygame.event.Event(QUIT))
+					if event.key == K_ESCAPE or event.key == K_RETURN:
+						enterGame(self)
 
 				elif event.type == MOUSEBUTTONDOWN:
 					for button in self.buttons:
 						if button.hovering:
-							button.onclick()
+							button.onclick(self)
 
 			for data in self.rockets:
 				img, pos = data[0], data[1]
@@ -68,13 +72,13 @@ class MainMenu(object):
 			for button in self.buttons:
 				button.draw(self.window)
 
-			self.window.blit(self.titleMsg, (config.SCREEN_SIZE[0] / 2 - self.titleMsg.get_width() / 2, config.SCREEN_SIZE[1] / 4 - self.titleMsg.get_height() / 2))
+			self.window.blit(self.title, (config.SCREEN_SIZE[0] / 2 - self.title.get_width() / 2, config.SCREEN_SIZE[1] / 4 - self.title.get_height() / 2))
 
 			pygame.display.update()
 			self.clock.tick(config.FRAMERATE)
 
 def main():
-	menubuttons = [["Play", game.main], ["Quit", lambda x=None: pygame.event.post(pygame.event.Event(QUIT))]]
+	menubuttons = [["Play", enterGame], ["Quit", lambda menu: pygame.event.post(pygame.event.Event(QUIT))]]
 	menu = MainMenu(menubuttons)
 	menu.loop()
 
