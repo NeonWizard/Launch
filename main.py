@@ -30,8 +30,8 @@ class MainMenu(object):
 			btn.onclick = data[1]
 			self.buttons.append(btn)
 
-		self.titleFont = pygame.font.Font("freesansbold.ttf", 32)
-		self.titleMsg = self.titleFont.render("Rocket Ascent", True, (0, 0, 0))
+		titleFont = pygame.font.Font("freesansbold.ttf", 32)
+		self.title = titleFont.render("Rocket Ascent", True, (0, 0, 0))
 
 		self.rockets = []
 		for i in range(0, 5):
@@ -70,7 +70,7 @@ class MainMenu(object):
 			for button in self.buttons:
 				button.draw(self.window)
 
-			self.window.blit(self.titleMsg, (config.SCREEN_SIZE[0] / 2 - self.titleMsg.get_width() / 2, config.SCREEN_SIZE[1] / 4 - self.titleMsg.get_height() / 2))
+			self.window.blit(self.title, (config.SCREEN_SIZE[0] / 2 - self.title.get_width() / 2, config.SCREEN_SIZE[1] / 4 - self.title.get_height() / 2))
 
 			pygame.display.update()
 			self.clock.tick(config.FRAMERATE)

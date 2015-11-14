@@ -38,8 +38,7 @@ class Launch():
 		self.rocket = Rocket("images/ship.png")
 		ground = pygame.image.load("images/ground.png")
 		scale = self.window.get_width() / float(ground.get_width())
-		#self.backgroundImage = pygame.transform.scale(ground, (int(math.ceil(scale * ground.get_width())), int(math.ceil(scale * ground.get_height()))))
-		self.bleh = terraingen.generateHills(config.SCREEN_SIZE, 10)
+		self.hillSurf = terraingen.generateHills(config.SCREEN_SIZE, 10)
 
 	# Main loop
 	def main(self):
@@ -84,8 +83,7 @@ class Launch():
 	def drawbackground(self, surface, stage):
 		if stage == 1: # sky
 			surface.fill((135, 206, 235))
-			# pygame.draw.circle(surface, (50, 255, 50), map(int, GameCamera.adjust_pos((config.SCREEN_SIZE[0] / 2, config.SCREEN_SIZE[1] - 75))), 100)
-			surface.blit(self.bleh, GameCamera.adjust_pos(0, 0))
+			surface.blit(self.hillSurf, GameCamera.adjust_pos(0, 0))
 		elif stage == 2: # night
 			# surface.fill((3, 11, 20))
 			surface.fill((50, 50, 50))
