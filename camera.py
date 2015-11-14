@@ -1,3 +1,5 @@
+import pygame
+
 import config
 
 # All things visually relative
