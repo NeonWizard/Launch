@@ -23,7 +23,7 @@ def addVectors(vectorOne, vectorTwo):
 
 class Rocket(object):
 	def __init__(self, image):
-		image = pygame.image.load(image)
+		image = pygame.transform.scale(pygame.image.load(image), (100, 200))
 		pblll = ((image.get_height() / 2) ** 2 + (image.get_width() / 2) ** 2) ** .5
 		t = pblll * 2
 		self.baseImage = pygame.Surface((t, t)).convert_alpha()
@@ -37,6 +37,8 @@ class Rocket(object):
 		self.direction = 0
 		self.screenPos = [config.SCREEN_SIZE[0] / 2 - self.image.get_width() / 2, config.SCREEN_SIZE[1] - self.image.get_height()]
 
+		self.fuel = 1000
+
 	def draw(self, surface):
 		surface.blit(self.image, self.screenPos)
 
@@ -45,18 +47,27 @@ class Rocket(object):
 		if self.screenPos[1] < config.SCREEN_SIZE[1] - self.size[1]:
 			self.direction, self.velocity = addVectors((self.direction, self.velocity), config.GRAVITY)
 		else:
-			self.direction, self.velocity = 0, 0
+			self.velocity = 0
 
-		if keys[K_UP]:
-			self.velocity += 6 * dt
-			self.velocity = min(self.maxSpeed, self.velocity)
+		if self.fuel > 0:
+			if keys[K_UP]:
+				self.fuel -= 5 * dt
+				self.velocity += 6 * dt
+				self.velocity = min(self.maxSpeed, self.velocity)
 
-		if keys[K_LEFT]:
-			self.direction -= .5 * dt
-		elif keys[K_RIGHT]:
-			self.direction += .5 * dt
+			if keys[K_LEFT]:
+				self.fuel -= dt
+				self.direction -= .5 * dt
+			elif keys[K_RIGHT]:
+				self.fuel -= dt
+				self.direction += .5 * dt
 
 		self.image = rot_center(self.baseImage, -math.degrees(self.direction))
+		if config.FUN:
+			basew, baseh = 238, 497
+			scale = max((config.SCREEN_SIZE[1] - self.screenPos[1]) / config.SCREEN_SIZE[1], 0)
+			self.image = pygame.transform.scale(self.image, (int(scale * basew), int(scale * baseh)))
+			self.size = (scale * basew, scale * baseh)
 
 		self.move()
 

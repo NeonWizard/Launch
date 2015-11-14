@@ -71,6 +71,7 @@ class Launch():
 
 		# Framerate
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
+		surface.blit(FPSFONT.render("FUEL: " + str(int(self.rocket.fuel)), True, WHITE), (0, 50))
 
 		# Draw our objects
 		self.rocket.draw(self.window)
