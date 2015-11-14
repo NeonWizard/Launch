@@ -33,7 +33,7 @@ class Rocket(object):
 		self.image = self.baseImage.copy()
 		self.size = (self.image.get_width(), self.image.get_height())
 
-		self.maxSpeed = 10
+		self.maxSpeed = 5
 		self.velocity = 0
 		self.direction = 0
 		self.pos = [config.SCREEN_SIZE[0] / 2 - self.image.get_width() / 2, 0]
@@ -56,7 +56,7 @@ class Rocket(object):
 		if self.fuel > 0:
 			if keys[K_UP]:
 				self.fuel -= 5 * dt
-				self.velocity += 6 * dt
+				self.velocity += 3 * dt
 				self.velocity = min(self.maxSpeed, self.velocity)
 
 			if keys[K_LEFT]:
@@ -74,7 +74,7 @@ class Rocket(object):
 		self.pos[0] += math.sin(self.direction) * self.velocity
 		self.pos[1] += math.cos(self.direction) * self.velocity
 
-		GameCamera.set_pos((self.pos[0], self.pos[1]))
+		GameCamera.set_pos((-self.pos[0], self.pos[1]))
 
 		# Preventing movement below starting point
 		self.pos[1] = max(0, self.pos[1])
