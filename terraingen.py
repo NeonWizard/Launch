@@ -12,7 +12,7 @@ def generateHills(surfSize, hills):
 
 	for i in range(hills):
 		radius = random.randrange(surfSize[0]/hills, surfSize[0]/hills*1.5)
-		pos = (surfSize[0]/(hills-2)*(i-1)+random.randrange(-50, 0)*2, surf.get_height()+radius/2)
+		pos = (surfSize[0]/hills*i+random.randrange(-50, 0)*2+100, surf.get_height()+radius/2)
 		toBlit.append(((0, 255, 0), pos, radius))
 
 	random.shuffle(toBlit)
