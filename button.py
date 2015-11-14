@@ -24,6 +24,7 @@ class Button(object):
 		self.text = font.render(text, True, textcolor)
 
 	def draw(self, surface):
+		self.hovering = self.rect.collidepoint(pygame.mouse.get_pos())
 		if self.isImage:
 			surface.blit(self.hoverimage if self.hovering else self.image, self.pos)
 			if self.text:
@@ -36,6 +37,3 @@ class Button(object):
 	# override me
 	def onclick(self):
 		print("clicked button ", self)
-
-	def checkHover(self, mousePos):
-		self.hovering = self.rect.collidepoint(mousePos)		

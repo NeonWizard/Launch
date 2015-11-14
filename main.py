@@ -53,10 +53,6 @@ class MainMenu(object):
 					if event.key == K_ESCAPE:
 						pygame.event.post(pygame.event.Event(QUIT))
 
-				elif event.type == MOUSEMOTION:
-					for button in self.buttons:
-						button.checkHover(event.pos)
-
 				elif event.type == MOUSEBUTTONDOWN:
 					for button in self.buttons:
 						if button.hovering:
