@@ -102,7 +102,8 @@ class Launch():
 		layersurf = self.layers[layer]
 
 		for i in range(-1, 2):
-			surface.blit(layersurf, GameCamera.adjust_pos(surface.get_width() * (i - horizontalOffset), self.window.get_height() * layer - layersurf.get_height() * layer))
+			for i2 in range(0, 2):
+				surface.blit(layersurf, GameCamera.adjust_pos(surface.get_width() * (i - horizontalOffset), -(self.window.get_height() * layer) + self.window.get_height() * i2))
 
 	def initPowerUp(self):
 		fuelCanImage = pygame.image.load("images/fuel.png")
