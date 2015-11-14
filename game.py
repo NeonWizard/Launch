@@ -44,7 +44,7 @@ class Launch():
 
 		self.initPowerUp()
 
-		self.layers = [0 for _ in range(0, 1000)]
+		self.layers = [[0, 0] for _ in range(0, 1000)]
 
 		#pygame.mixer.music.play(-1)
 
@@ -94,8 +94,6 @@ class Launch():
 		self.clock.tick(config.FRAMERATE)
 
 	def drawbackground(self, surface):
-		surface.fill((155, 255, 255))
-
 		horizontalOffset = int(round(float(GameCamera.pos[0]) / self.window.get_width()))
 		layer = int(round(float(GameCamera.pos[1]) / self.window.get_height()))
 
@@ -104,9 +102,11 @@ class Launch():
 		for i in range(-1, 2):
 			for i2 in range(-1, 2):
 				if layer == 0 and i2 != 0: continue
-				if self.layers[layer-i2] == 0:
+				if self.layers[layer-i2] == [0, 0]:
 					self.layers[layer-i2] = terraingen.generateLayer(layer-i2, config.SCREEN_SIZE, 10)
-				layersurf = self.layers[layer-i2]
+				layersurf = self.layers[layer-i2][0]
+				if i == -1 and i2 == -1:
+					surface.fill(self.layers[layer][1])
 				surface.blit(layersurf, GameCamera.adjust_pos(surface.get_width() * (i - horizontalOffset), -(self.window.get_height() * layer) + self.window.get_height() * i2))
 
 	def initPowerUp(self):

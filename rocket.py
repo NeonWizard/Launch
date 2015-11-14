@@ -80,7 +80,7 @@ class Rocket(object):
 			if keys[K_UP]:
 				self.fuel -= 5 * dt
 				self.velocity += 3 * dt
-				#self.velocity = min(self.maxSpeed, self.velocity)
+				self.velocity = min(self.maxSpeed, self.velocity)
 				gotInput = True
 
 			if keys[K_LEFT]:
