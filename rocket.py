@@ -73,5 +73,5 @@ class Rocket(object):
 		self.pos[0] += math.sin(self.direction) * self.velocity
 		self.pos[1] += math.cos(self.direction) * self.velocity
 
-		# Preventing movement below bottom of screen
+		# Preventing movement below starting point
 		self.pos[1] = max(0, self.pos[1])
