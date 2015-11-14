@@ -32,11 +32,12 @@ class Rocket(object):
 
 		self.baseImage = pygame.Surface((diag, diag)).convert_alpha()
 		self.baseImage.fill(TRANSPARENCY)
-		self.baseImage.blit(image, ((diag - image.get_width()) / 2, (diag - image.get_height()) / 2))
 
 		self.flameImage = pygame.image.load("images/fire.png")
 		self.flameImage = pygame.transform.scale(self.flameImage, (int(self.flameImage.get_width() * scale), int(self.flameImage.get_height() * scale)))
-		self.baseImage.blit(self.flameImage, (int(image.get_width() * 0.3), int(image.get_height() * 0.748)))
+
+		self.baseImage.blit(self.flameImage, (int(self.baseImage.get_width() / 2 - self.flameImage.get_width() / 2), int(image.get_height() * 0.748)))
+		self.baseImage.blit(image, ((diag - image.get_width()) / 2, (diag - image.get_height()) / 2))
 
 		self.image = self.baseImage.copy()
 
