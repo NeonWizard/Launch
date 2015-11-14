@@ -87,13 +87,14 @@ class Launch():
 	def drawbackground(self, surface, stage):
 		if stage == 1: # sky
 			surface.fill((135, 206, 235))
-			surface.blit(self.hillSurf, GameCamera.adjust_pos(0, 0))
+			GameCamera.loadChunks(surface)
+			#surface.blit(self.hillSurf, GameCamera.adjust_pos(0, 0))
 		elif stage == 2: # night
 			# surface.fill((3, 11, 20))
 			surface.fill((50, 50, 50))
-			for i in range(0, 20):
+			"""for i in range(0, 20):
 				pos = (random.randrange(0, surface.get_width()), random.randrange(0, surface.get_height()))
-				pygame.draw.circle(surface, (255, 255, 255), pos, 1)
+				pygame.draw.circle(surface, (255, 255, 255), pos, 1)"""
 
 	def initPowerUp(self):
 		self.fuel = powerup.PowerUp(self.window, pygame.image.load("images/fuel.png"))
@@ -106,7 +107,7 @@ class Launch():
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
 		surface.blit(FPSFONT.render("FUEL: " + str(int(self.rocket.fuel)), True, WHITE), (0, 50))
 		surface.blit(FPSFONT.render("Height: " + str(int(self.rocket.pos[1])), True, WHITE), (0, 100))
-		surface.blit(FPSFONT.render("Chunk: " + str(int(GameCamera.chunk)), True, WHITE), (0, 150))
+		surface.blit(FPSFONT.render("Chunk: " + str(GameCamera.chunk), True, WHITE), (0, 150))
 
 		# Draw our objects
 		self.rocket.draw(self.window)
