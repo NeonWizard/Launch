@@ -3,28 +3,39 @@ from __future__ import print_function
 import pygame, config
 
 class Button(object):
-	def __init__(self, image, window, pos):
-		self.image = image
-		self.window = window
-		self.buttonPos = pos
+	def __init__(self, rectorimage, colororhoverimage, hovercolororpos):
+		if type(rectorimage) == pygame.Surface:
+			self.isImage = True
+			self.image = rectorimage
+			self.hoverimage = colororhoverimage
+			self.pos = hovercolororpos
+			self.rect = pygame.Rect(self.pos[0], self.pos[1], self.image.get_width(), self.image.get_height())
+		else:
+			self.isImage = False
+			self.rect = rectorimage
+			self.color = colororhoverimage
+			self.hovercolor = hovercolororpos
 		self.hovering = False
+		self.text = False
+
+	def set_text(self, text, font, textcolor):
+		if text == "":
+			self.text == False
+		self.text = font.render(text, True, textcolor)
 
 	def draw(self, surface):
-		pygame.draw.rect(surface, self.color, self.rect)
+		if self.isImage:
+			surface.blit(self.hoverimage if self.hovering else self.image, self.pos)
+			if self.text:
+				surface.blit(self.text, (self.rect.x + self.rect.w / 2 - (self.text.get_width() / 2), self.rect.y + self.rect.h / 2 - (self.text.get_height() / 2)))
+		else:
+			pygame.draw.rect(surface, self.hoveredcolor if self.hovering else self.color, self.rect)
+			if self.text:
+				surface.blit(self.text, (self.rect.x + self.rect.w / 2 - (self.text.get_width() / 2), self.rect.y + self.rect.h / 2 - (self.text.get_height() / 2)))
 
 	# override me
 	def onclick(self):
 		print("clicked button ", self)
 
-	def update(self):
-		if self.hovering:
-			self.window.blit(self.image, self.buttonPos, (0, self.image.get_height() / 2, self.image.get_width(), self.image.get_height() / 2))
-		else:	
-			self.window.blit(self.image, self.buttonPos, (0, 0, self.image.get_width(), self.image.get_height() / 2))
-
 	def checkHover(self, mousePos):
-		self.buttonRect = pygame.Rect(self.buttonPos[0], self.buttonPos[1], self.image.get_width(), self.image.get_height() / 2)
-		if self.buttonRect.collidepoint(mousePos):
-			self.hovering = True
-		else:
-			self.hovering = False
+		self.hovering = self.rect.collidepoint(mousePos)		
