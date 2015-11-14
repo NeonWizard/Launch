@@ -34,6 +34,7 @@ class Launch():
 		self.clock.tick(config.FRAMERATE)
 
 		self.rocket = Rocket("images/ship.png")
+		self.backgroundImage = pygame.transform.scale(pygame.image.load("images/ground.png"), self.window.get_size())
 
 	# Main loop
 	def main(self):
@@ -80,6 +81,8 @@ class Launch():
 
 		# Background
 		surface.fill(config.BACKGROUND_COLOR)
+
+		surface.blit(self.backgroundImage, GameCamera.adjust_pos((0, 0)))
 
 		# Framerate
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))

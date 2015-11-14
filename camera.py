@@ -8,7 +8,7 @@ class Camera(object):
 			pos = (pos, y)
 		self.pos = pos
 
-	def adjust_pos(self):
+	def adjust_pos(self, pos, y=None):
 		if (not y is None):
 			pos = [pos, y]
 		return (self.pos[0] + pos[0], self.pos[1] + pos[1])
