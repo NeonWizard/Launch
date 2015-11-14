@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 # standard library modules
-import sys
+import sys, math
 sys.dont_write_bytecode = True
 
 # third party modules
@@ -11,13 +11,17 @@ from pygame.locals import *
 # our modules
 import config
 from rocket import *
+from camera import GameCamera
 
 # Initiate pygame things
+pygame.mixer.pre_init(22050, -16, 2, 512)
 pygame.init()
 
 FPSFONT = pygame.font.Font(None, 48)
 
 WHITE = pygame.Color(255, 255, 255)
+
+sound = pygame.mixer.Sound("sound/engine.wav")
 
 class Launch():
 	def __init__(self):
@@ -30,6 +34,9 @@ class Launch():
 		self.clock.tick(config.FRAMERATE)
 
 		self.rocket = Rocket("images/ship.png")
+		ground = pygame.image.load("images/ground.png")
+		scale = self.window.get_width() / float(ground.get_width())
+		self.backgroundImage = pygame.transform.scale(ground, (int(math.ceil(scale * ground.get_width())), int(math.ceil(scale * ground.get_height()))))
 
 	# Main loop
 	def main(self):
@@ -52,6 +59,16 @@ class Launch():
 				elif event.key == K_r:
 					self.rocket.__init__("dev/patesship.png")
 
+				elif event.key == K_UP:
+					if not pygame.mixer.get_busy():
+						#sound.play(-1)
+						pass
+
+			elif event.type == KEYUP:
+				if event.key == K_UP:
+					#sound.stop()
+					pass
+
 	# Update everything in game
 	def update(self):
 		dt = float(self.clock.get_time()) / float(config.FRAMERATE)
@@ -63,14 +80,15 @@ class Launch():
 
 	def draw(self, surface):
 		# Fill window to clear it
-		surface.fill((0, 0, 0))
+		surface.fill(config.BACKGROUND_COLOR)
 
 		# Background
-		surface.fill(config.BACKGROUND_COLOR)
+		surface.blit(self.backgroundImage, GameCamera.adjust_pos((0, config.SCREEN_SIZE[1]-self.backgroundImage.get_height())))
 
 		# Framerate
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
 		surface.blit(FPSFONT.render("FUEL: " + str(int(self.rocket.fuel)), True, WHITE), (0, 50))
+		surface.blit(FPSFONT.render("Height: " + str(int(self.rocket.pos[1])), True, WHITE), (0, 100))
 
 		# Draw our objects
 		self.rocket.draw(self.window)

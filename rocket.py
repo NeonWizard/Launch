@@ -35,16 +35,19 @@ class Rocket(object):
 		self.maxSpeed = 10
 		self.velocity = 0
 		self.direction = 0
-		self.screenPos = [config.SCREEN_SIZE[0] / 2 - self.image.get_width() / 2, config.SCREEN_SIZE[1] - self.image.get_height()]
+		self.pos = [config.SCREEN_SIZE[0] / 2 - self.image.get_width() / 2, 0]
 
 		self.fuel = 1000
 
 	def draw(self, surface):
-		surface.blit(self.image, self.screenPos)
+		if self.pos[1] < config.SCREEN_SIZE[1]/2-self.size[1]/2:
+			surface.blit(self.image, (config.SCREEN_SIZE[0]/2-self.size[0]/2, max(config.SCREEN_SIZE[1]/2-self.size[1]/2, config.SCREEN_SIZE[1]-self.size[1]-self.pos[1])))
+		else:
+			surface.blit(self.image, (config.SCREEN_SIZE[0]/2-self.size[0]/2, config.SCREEN_SIZE[1]/2-self.size[1]/2))
 
 	def update(self, dt, keys):
 		# Apply gravity
-		if self.screenPos[1] < config.SCREEN_SIZE[1] - self.size[1]:
+		if self.pos[1] > 0:
 			self.direction, self.velocity = addVectors((self.direction, self.velocity), (config.GRAVITY[0], config.GRAVITY[1]*dt))
 		else:
 			self.velocity = 0
@@ -67,8 +70,8 @@ class Rocket(object):
 		self.move()
 
 	def move(self):
-		self.screenPos[0] += math.sin(self.direction) * self.velocity
-		self.screenPos[1] -= math.cos(self.direction) * self.velocity
+		self.pos[0] += math.sin(self.direction) * self.velocity
+		self.pos[1] += math.cos(self.direction) * self.velocity
 
-		# Preventing movement below bottom of screen
-		self.screenPos[1] = min(config.SCREEN_SIZE[1]-self.size[1], self.screenPos[1])
+		# Preventing movement below starting point
+		self.pos[1] = max(0, self.pos[1])
