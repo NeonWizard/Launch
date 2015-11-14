@@ -12,6 +12,7 @@ from pygame.locals import *
 import config
 from rocket import *
 from camera import GameCamera
+import terraingen
 import mainmenu
 
 # Initiate pygame things
@@ -38,6 +39,7 @@ class Launch():
 		ground = pygame.image.load("images/ground.png")
 		scale = self.window.get_width() / float(ground.get_width())
 		#self.backgroundImage = pygame.transform.scale(ground, (int(math.ceil(scale * ground.get_width())), int(math.ceil(scale * ground.get_height()))))
+		self.bleh = terraingen.generateHills(config.SCREEN_SIZE, 10)
 
 	# Main loop
 	def main(self):
