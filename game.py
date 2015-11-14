@@ -94,7 +94,7 @@ class Launch():
 				pygame.draw.circle(surface, (255, 255, 255), pos, 1)
 
 	def drawPowerUp(self):
-		self.fuel = powerup.PowerUp(self.window)
+		self.fuel = powerup.PowerUp(self.window, pygame.image.load("images/fuel.png"))
 		self.fuel.draw()
 
 	def draw(self, surface):
@@ -108,8 +108,6 @@ class Launch():
 
 		# Draw our objects
 		self.rocket.draw(self.window)
-
-		self.drawPowerUp()
 
 		pygame.display.update()
 
