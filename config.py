@@ -7,4 +7,4 @@ SCREEN_TITLE = "Rocket Ascent"
 
 FRAMERATE = 120
 
-GRAVITY = (math.pi, 2)
+GRAVITY = (math.pi, 1)

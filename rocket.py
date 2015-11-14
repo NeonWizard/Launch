@@ -36,7 +36,7 @@ class Rocket(object):
 		self.maxSpeed = 5
 		self.velocity = 0
 		self.direction = 0
-		self.pos = [config.SCREEN_SIZE[0] / 2 - self.image.get_width() / 2, 0]
+		self.pos = [0, 0]
 
 		self.fuel = 1000
 
