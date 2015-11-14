@@ -6,6 +6,7 @@ import game
 
 import config, button
 
+pygame.mixer.pre_init(22050, -16, 2, 512)
 pygame.init()
 
 def enterGame(menu):
@@ -19,6 +20,8 @@ class MainMenu(object):
 		self.clock = pygame.time.Clock()
 		self.clock.tick(config.FRAMERATE)
 		config.SCREEN_SIZE = self.window.get_size()
+
+		pygame.mixer.music.play()
 
 		image = pygame.image.load("images/buttons.png")
 		buttonimage = image.subsurface((0, 0, image.get_width(), image.get_height() / 2))
@@ -77,7 +80,7 @@ class MainMenu(object):
 
 			for data in self.rockets:
 				img, pos = data[0], data[1]
-				pos[1] -= 50 * dt
+				pos[1] -= 40 * dt
 				if (pos[1] + img.get_height()) < 0:
 					pos[1] = self.window.get_height() + img.get_height()
 				self.window.blit(img, pos)
@@ -91,6 +94,9 @@ class MainMenu(object):
 			self.clock.tick(config.FRAMERATE)
 
 def main():
+	pygame.mixer.music.stop()
+	pygame.mixer.music.load("music/memento.mp3")
+	pygame.mixer.music.set_volume(.4)
 	menubuttons = [["Play", enterGame], ["Quit", lambda menu: pygame.event.post(pygame.event.Event(QUIT))]]
 	menu = MainMenu(menubuttons)
 	menu.loop()

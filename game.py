@@ -46,6 +46,8 @@ class Launch():
 
 		self.layers = [0 for i in range(0, 1000)]
 
+		pygame.mixer.music.play()
+
 	# Main loop
 	def main(self):
 		while True:
@@ -132,5 +134,8 @@ class Launch():
 		pygame.display.update()
 
 def main():
+	pygame.mixer.music.stop()
+	pygame.mixer.music.load("music/10000.mp3")
+	pygame.mixer.music.set_volume(.2)
 	launch = Launch()
 	launch.main()

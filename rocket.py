@@ -36,10 +36,14 @@ class Rocket(object):
 		self.flameImage = pygame.image.load("images/fire.png")
 		self.flameImage = pygame.transform.scale(self.flameImage, (int(self.flameImage.get_width() * scale), int(self.flameImage.get_height() * scale)))
 
-		self.baseImage.blit(self.flameImage, (int(self.baseImage.get_width() / 2 - self.flameImage.get_width() / 2), int(image.get_height() * 0.748)))
-		self.baseImage.blit(image, ((diag - image.get_width()) / 2, (diag - image.get_height()) / 2))
-
 		self.image = self.baseImage.copy()
+
+		self.image.blit(self.flameImage, (int(self.baseImage.get_width() / 2 - self.flameImage.get_width() / 2), int(image.get_height() * 0.748)))
+		self.image.blit(image, ((diag - image.get_width()) / 2, (diag - image.get_height()) / 2))
+
+		self.flameImage = self.image.copy()
+		self.flamelessImage = self.baseImage.copy()
+		self.flamelessImage.blit(image, ((diag - image.get_width()) / 2, (diag - image.get_height()) / 2))
 
 		self.maxSpeed = 5
 		self.velocity = 0
@@ -63,20 +67,27 @@ class Rocket(object):
 		else:
 			self.velocity = 0
 
+		gotInput = False
 		if self.fuel > 0:
 			if keys[K_UP]:
 				self.fuel -= 5 * dt
 				self.velocity += 3 * dt
 				self.velocity = min(self.maxSpeed, self.velocity)
+				gotInput = True
 
 			if keys[K_LEFT]:
 				self.fuel -= dt
 				self.direction -= .5 * dt
+				gotInput = True
 			elif keys[K_RIGHT]:
 				self.fuel -= dt
 				self.direction += .5 * dt
+				gotInput = True
 
-		self.image = rot_center(self.baseImage, -math.degrees(self.direction))
+		if gotInput:
+			self.image = rot_center(self.flameImage, -math.degrees(self.direction))
+		else:
+			self.image = rot_center(self.flamelessImage, -math.degrees(self.direction))
 
 		self.move()
 
