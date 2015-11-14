@@ -25,6 +25,10 @@ WHITE = pygame.Color(255, 255, 255)
 
 sound = pygame.mixer.Sound("sound/engine.wav")
 
+def enterMenu(game):
+	del game
+	mainmenu.main()
+
 class Launch():
 	def __init__(self):
 		# Initiate pygame window stuff
@@ -53,8 +57,7 @@ class Launch():
 
 			elif event.type == KEYDOWN:
 				if event.key == K_ESCAPE:
-					self.reset()
-					mainmenu.main()
+					enterMenu(self)
 
 				elif event.key == K_r:
 					self.rocket.__init__("dev/patesship.png")
@@ -102,9 +105,6 @@ class Launch():
 		self.rocket.draw(self.window)
 
 		pygame.display.update()
-
-	def reset(self):
-		pass
 
 def main():
 	launch = Launch()

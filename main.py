@@ -8,6 +8,10 @@ import config, button
 
 pygame.init()
 
+def enterGame(menu):
+	del menu
+	game.main()
+
 class MainMenu(object):
 	def __init__(self, buttons):
 		self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -50,15 +54,13 @@ class MainMenu(object):
 					sys.exit()
 
 				elif event.type == KEYDOWN:
-					if event.key == K_ESCAPE:
-						pygame.event.post(pygame.event.Event(QUIT))
-					elif event.key == K_RETURN:
-						game.main()
+					if event.key == K_ESCAPE or event.key == K_RETURN:
+						enterGame(self)
 
 				elif event.type == MOUSEBUTTONDOWN:
 					for button in self.buttons:
 						if button.hovering:
-							button.onclick()
+							button.onclick(self)
 
 			for data in self.rockets:
 				img, pos = data[0], data[1]
@@ -76,7 +78,7 @@ class MainMenu(object):
 			self.clock.tick(config.FRAMERATE)
 
 def main():
-	menubuttons = [["Play", game.main], ["Quit", lambda x=None: pygame.event.post(pygame.event.Event(QUIT))]]
+	menubuttons = [["Play", enterGame], ["Quit", lambda menu: pygame.event.post(pygame.event.Event(QUIT))]]
 	menu = MainMenu(menubuttons)
 	menu.loop()
 
