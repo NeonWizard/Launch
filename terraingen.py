@@ -21,5 +21,10 @@ def generateHills(surfSize, hills):
 		pygame.draw.circle(surf, i[0], i[1], i[2])
 		pygame.draw.circle(surf, (0, 0, 0), i[1], i[2]+1, 1)
 
+	pygame.draw.circle(surf, (0, 255, 0), (0, surfSize[1]), int(surfSize[0]/hills*.75))
+	pygame.draw.circle(surf, (0, 255, 0), (surfSize[0], surfSize[1]), int(surfSize[0]/hills*.75))
+
+	pygame.draw.circle(surf, (0, 0, 0), (0, surfSize[1]), int(surfSize[0]/hills*.75+1), 1)
+	pygame.draw.circle(surf, (0, 0, 0), (surfSize[0], surfSize[1]), int(surfSize[0]/hills*.75+1), 1)
 
 	return surf

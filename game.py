@@ -41,7 +41,6 @@ class Launch():
 		self.clock.tick(config.FRAMERATE)
 
 		self.rocket = Rocket("images/ship.png")
-		self.hillSurf = terraingen.generateHills(config.SCREEN_SIZE, 10)
 
 		self.initPowerUp()
 
@@ -93,7 +92,7 @@ class Launch():
 	def drawbackground(self, surface, stage):
 		if stage == 1: # sky
 			surface.fill((135, 206, 235))
-			GameCamera.loadChunks(surface)
+			GameCamera.displayChunks(surface)
 			#surface.blit(self.hillSurf, GameCamera.adjust_pos(0, 0))
 		elif stage == 2: # night
 			# surface.fill((3, 11, 20))
