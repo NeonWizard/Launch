@@ -74,7 +74,7 @@ class Rocket(object):
 		self.pos[0] += math.sin(self.direction) * self.velocity
 		self.pos[1] += math.cos(self.direction) * self.velocity
 
-		GameCamera.set_pos((self.pos[0], self.pos[1]))
+		GameCamera.set_pos((-self.pos[0], self.pos[1]))
 
 		# Preventing movement below starting point
 		self.pos[1] = max(0, self.pos[1])
