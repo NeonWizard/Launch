@@ -30,7 +30,7 @@ class MainMenu(object):
 			btn.onclick = data[1]
 			self.buttons.append(btn)
 
-		titleFont = pygame.font.Font("freesansbold.ttf", 32)
+		titleFont = pygame.font.Font("fonts/redrocket.ttf", 60)
 		self.title = titleFont.render("Rocket Ascent", True, (0, 0, 0))
 
 		self.rockets = []
