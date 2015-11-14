@@ -44,6 +44,8 @@ class Launch():
 
 		self.initPowerUp()
 
+		self.layers = [0 for i in range(0, 1000)]
+
 	# Main loop
 	def main(self):
 		while True:
@@ -89,17 +91,19 @@ class Launch():
 
 		self.clock.tick(config.FRAMERATE)
 
-	def drawbackground(self, surface, stage):
-		if stage == 1: # sky
-			surface.fill((135, 206, 235))
-			GameCamera.displayChunks(surface)
-			#surface.blit(self.hillSurf, GameCamera.adjust_pos(0, 0))
-		elif stage == 2: # night
-			# surface.fill((3, 11, 20))
-			surface.fill((50, 50, 50))
-			"""for i in range(0, 20):
-				pos = (random.randrange(0, surface.get_width()), random.randrange(0, surface.get_height()))
-				pygame.draw.circle(surface, (255, 255, 255), pos, 1)"""
+	def drawbackground(self, surface):
+		surface.fill((135, 206, 235))
+
+		horizontalOffset = int(round(float(GameCamera.pos[0]) / self.window.get_width()))
+		layer = int(round(float(GameCamera.pos[1]) / self.window.get_height()))
+
+		if self.layers[layer] == 0:
+			self.layers[layer] = terraingen.generateLayer(layer, config.SCREEN_SIZE, 10)
+		layersurf = self.layers[layer]
+
+		for i in range(-1, 2):
+			for i2 in range(0, 2):
+				surface.blit(layersurf, GameCamera.adjust_pos(surface.get_width() * (i - horizontalOffset), -(self.window.get_height() * layer) + self.window.get_height() * i2))
 
 	def initPowerUp(self):
 		fuelCanImage = pygame.image.load("images/fuel.png")
@@ -111,13 +115,12 @@ class Launch():
 
 	def draw(self, surface):
 		# Background
-		self.drawbackground(surface, 1)
+		self.drawbackground(surface)
 
 		# Status messages
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
 		surface.blit(FPSFONT.render("FUEL: " + str(int(self.rocket.fuel)), True, WHITE), (0, 50))
 		surface.blit(FPSFONT.render("Height: " + str(int(self.rocket.pos[1])), True, WHITE), (0, 100))
-		surface.blit(FPSFONT.render("Chunk: " + str(GameCamera.chunk), True, WHITE), (0, 150))
 
 		# Draw our objects
 		self.rocket.draw(self.window)

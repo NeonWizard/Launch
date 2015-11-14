@@ -28,3 +28,19 @@ def generateHills(surfSize, hills):
 	pygame.draw.circle(surf, (0, 0, 0), (surfSize[0], surfSize[1]), int(surfSize[0]/hills*.75+1), 1)
 
 	return surf
+
+def generateLayer(layer, surfSize, hills):
+	if layer == 0: # hills
+		return generateHills(surfSize, hills)
+	elif layer <= 10: # test
+		surf = pygame.Surface(surfSize)
+		surf.fill((255, 0, 0))
+		return surf
+	elif layer <= 20: # test
+		surf = pygame.Surface(surfSize)
+		surf.fill((0, 255, 0))
+		return surf
+	elif layer <= 100: # sky
+		surf = pygame.Surface(surfSize)
+		surf.fill((255, 255, 0))
+		return surf
