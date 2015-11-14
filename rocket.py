@@ -63,11 +63,6 @@ class Rocket(object):
 				self.direction += .5 * dt
 
 		self.image = rot_center(self.baseImage, -math.degrees(self.direction))
-		if config.FUN:
-			basew, baseh = 238, 497
-			scale = max((config.SCREEN_SIZE[1] - self.screenPos[1]) / config.SCREEN_SIZE[1], 0)
-			self.image = pygame.transform.scale(self.image, (int(scale * basew), int(scale * baseh)))
-			self.size = (scale * basew, scale * baseh)
 
 		self.move()
 

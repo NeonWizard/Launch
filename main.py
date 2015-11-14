@@ -31,7 +31,6 @@ class Launch():
 		self.clock.tick(config.FRAMERATE)
 
 		self.rocket = Rocket("images/ship.png")
-		self.mainmenu = MainMenu()
 
 	# Main loop
 	def main(self):
@@ -51,7 +50,7 @@ class Launch():
 					pygame.event.post(pygame.event.Event(QUIT))
 
 				elif event.key == K_r:
-					self.rocket.__init__("images/ship.png")
+					self.rocket.__init__("dev/patesship.png")
 
 	# Update everything in game
 	def update(self):
