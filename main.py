@@ -34,8 +34,8 @@ class MainMenu(object):
 		self.titleMsg = self.titleFont.render("Rocket Ascent", True, (0, 0, 0))
 
 		self.rockets = []
-		for i in range(0, 20):
-			data = (pygame.transform.scale(pygame.image.load("images/ship.png"), (20, 40)), [random.randrange(0, self.window.get_width()), random.randrange(0, self.window.get_height())])
+		for i in range(0, 5):
+			data = (pygame.transform.scale(pygame.image.load("images/ship.png"), (100, 200)), [random.randrange(0, self.window.get_width()), random.randrange(0, self.window.get_height())])
 			self.rockets.append(data)
 
 	def loop(self):
