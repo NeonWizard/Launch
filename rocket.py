@@ -49,9 +49,9 @@ class Rocket(object):
 		self.velocity = 0
 		self.direction = 0
 		self.drawpos = [0, 0]
-		self.pos = [0, 0]
+		self.pos = [0, config.SCREEN_SIZE[1]*21]
 
-		self.fuel = 1000
+		self.fuel = 10000
 
 	def draw(self, surface):
 		if self.pos[1] < config.SCREEN_SIZE[1]/2-self.image.get_height()/2:

@@ -44,9 +44,9 @@ class Launch():
 
 		self.initPowerUp()
 
-		self.layers = [0 for i in range(0, 1000)]
+		self.layers = [0 for _ in range(0, 1000)]
 
-		pygame.mixer.music.play()
+		#pygame.mixer.music.play(-1)
 
 	# Main loop
 	def main(self):
@@ -94,18 +94,19 @@ class Launch():
 		self.clock.tick(config.FRAMERATE)
 
 	def drawbackground(self, surface):
-		surface.fill((135, 206, 235))
+		surface.fill((155, 255, 255))
 
 		horizontalOffset = int(round(float(GameCamera.pos[0]) / self.window.get_width()))
 		layer = int(round(float(GameCamera.pos[1]) / self.window.get_height()))
 
-		if self.layers[layer] == 0:
-			self.layers[layer] = terraingen.generateLayer(layer, config.SCREEN_SIZE, 10)
-		layersurf = self.layers[layer]
+		self.layer = layer
 
 		for i in range(-1, 2):
 			for i2 in range(-1, 2):
 				if layer == 0 and i2 != 0: continue
+				if self.layers[layer-i2] == 0:
+					self.layers[layer-i2] = terraingen.generateLayer(layer-i2, config.SCREEN_SIZE, 10)
+				layersurf = self.layers[layer-i2]
 				surface.blit(layersurf, GameCamera.adjust_pos(surface.get_width() * (i - horizontalOffset), -(self.window.get_height() * layer) + self.window.get_height() * i2))
 
 	def initPowerUp(self):
@@ -124,6 +125,7 @@ class Launch():
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
 		surface.blit(FPSFONT.render("FUEL: " + str(int(self.rocket.fuel)), True, WHITE), (0, 50))
 		surface.blit(FPSFONT.render("Height: " + str(int(self.rocket.pos[1])), True, WHITE), (0, 100))
+		surface.blit(FPSFONT.render("Layer: " + str(int(self.layer)), True, WHITE), (0, 150))
 
 		# Draw our objects
 		self.rocket.draw(self.window)
