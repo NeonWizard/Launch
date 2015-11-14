@@ -36,7 +36,6 @@ class Launch():
 		self.clock.tick(config.FRAMERATE)
 
 		self.rocket = Rocket("images/ship.png")
-		ground = pygame.image.load("images/ground.png")
 		scale = self.window.get_width() / float(ground.get_width())
 		self.hillSurf = terraingen.generateHills(config.SCREEN_SIZE, 10)
 
