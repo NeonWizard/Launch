@@ -9,4 +9,4 @@ FRAMERATE = 120
 
 GRAVITY = (math.pi, 1)
 
-DEBUG = True
+DEBUG = False

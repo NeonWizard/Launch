@@ -16,12 +16,12 @@ def enterGame(menu):
 class MainMenu(object):
 	def __init__(self, buttons):
 		self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-		self.mousePos = (0,0)
+		self.mousePos = (0, 0)
 		self.clock = pygame.time.Clock()
 		self.clock.tick(config.FRAMERATE)
 		config.SCREEN_SIZE = self.window.get_size()
 
-		pygame.mixer.music.play()
+		#pygame.mixer.music.play(-1)
 
 		image = pygame.image.load("images/buttons.png")
 		buttonimage = image.subsurface((0, 0, image.get_width(), image.get_height() / 2))
