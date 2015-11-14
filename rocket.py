@@ -52,6 +52,8 @@ class Rocket(object):
 		self.pos = [0, 0]
 
 		self.fuel = 1000
+		self.fullFuel = self.fuel
+		self.fuelPercent = 1
 
 	def draw(self, surface):
 		if self.pos[1] < config.SCREEN_SIZE[1]/2-self.image.get_height()/2:
@@ -59,6 +61,12 @@ class Rocket(object):
 		else:
 			self.drawpos = (config.SCREEN_SIZE[0]/2-self.image.get_width()/2, config.SCREEN_SIZE[1]/2-self.image.get_height()/2)
 		surface.blit(self.image, self.drawpos)
+
+		try:
+			pygame.draw.rect(surface, (255 - int(255 * self.fuelPercent), int(255 * self.fuelPercent), 0), (config.SCREEN_SIZE[0] - 225, config.SCREEN_SIZE[1] - 50, 200 * self.fuelPercent, 25))
+		except:
+			pass
+		surface.blit(pygame.image.load("images/fuelBar.png"), (config.SCREEN_SIZE[0] - 225, config.SCREEN_SIZE[1] - 50))
 
 	def update(self, dt, keys):
 		# Apply gravity
@@ -83,6 +91,7 @@ class Rocket(object):
 				self.fuel -= dt
 				self.direction += .5 * dt
 				gotInput = True
+			self.fuelPercent = float(self.fuel / self.fullFuel)
 
 		if gotInput:
 			self.image = rot_center(self.flameImage, -math.degrees(self.direction))

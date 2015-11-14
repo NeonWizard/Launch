@@ -122,7 +122,7 @@ class Launch():
 
 		# Status messages
 		surface.blit(FPSFONT.render(str(self.clock.get_fps()), True, WHITE), (0, 0))
-		surface.blit(FPSFONT.render("FUEL: " + str(int(self.rocket.fuel)), True, WHITE), (0, 50))
+		surface.blit(FPSFONT.render("FUEL: " + str(int(round(self.rocket.fuelPercent, 2) * 100)) + "%", True, WHITE), (0, 50))
 		surface.blit(FPSFONT.render("Height: " + str(int(self.rocket.pos[1])), True, WHITE), (0, 100))
 
 		# Draw our objects
