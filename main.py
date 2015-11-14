@@ -12,6 +12,7 @@ from pygame.locals import *
 import config
 from rocket import *
 from camera import GameCamera
+import mainmenu
 
 # Initiate pygame things
 pygame.mixer.pre_init(22050, -16, 2, 512)
@@ -54,7 +55,7 @@ class Launch():
 			elif event.type == KEYDOWN:
 				if event.key == K_ESCAPE:
 					self.reset()
-					from mainmenu import *
+					mainmenu.main()
 
 				elif event.key == K_r:
 					self.rocket.__init__("dev/patesship.png")
@@ -110,4 +111,5 @@ def main():
 	launch = Launch()
 	launch.main()
 
-main()
+if __name__ == "__main__":
+	main()
