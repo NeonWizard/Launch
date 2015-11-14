@@ -14,11 +14,14 @@ from rocket import *
 from mainmenu import *
 
 # Initiate pygame things
+pygame.mixer.pre_init(22050, -16, 2, 512)
 pygame.init()
 
 FPSFONT = pygame.font.Font(None, 48)
 
 WHITE = pygame.Color(255, 255, 255)
+
+sound = pygame.mixer.Sound("sound/engine.wav")
 
 class Launch():
 	def __init__(self):
@@ -51,6 +54,14 @@ class Launch():
 
 				elif event.key == K_r:
 					self.rocket.__init__("dev/patesship.png")
+
+				elif event.key == K_UP:
+					if not pygame.mixer.get_busy():
+						sound.play(-1)
+
+			elif event.type == KEYUP:
+				if event.key == K_UP:
+					sound.stop()
 
 	# Update everything in game
 	def update(self):
