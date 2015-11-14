@@ -10,4 +10,4 @@ FRAMERATE = 120
 
 GRAVITY = (math.pi, 2)
 
-FUN = False
+FUN = True
