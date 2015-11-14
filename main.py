@@ -20,7 +20,7 @@ class MainMenu(object):
 		buttonimage = image.subsurface((0, 0, image.get_width(), image.get_height() / 2))
 		buttonimagehovered = image.subsurface((0, image.get_height() / 2, image.get_width(), image.get_height() / 2))
 		buttonfont = pygame.font.Font("freesansbold.ttf", 20)
-		
+
 		self.buttons = []
 
 		for i in range(0, len(buttons)):
@@ -52,6 +52,8 @@ class MainMenu(object):
 				elif event.type == KEYDOWN:
 					if event.key == K_ESCAPE:
 						pygame.event.post(pygame.event.Event(QUIT))
+					elif event.key == K_RETURN:
+						game.main()
 
 				elif event.type == MOUSEBUTTONDOWN:
 					for button in self.buttons:
