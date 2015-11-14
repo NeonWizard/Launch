@@ -34,12 +34,25 @@ class MainMenu(object):
 			btn.onclick = data[1]
 			self.buttons.append(btn)
 
-		titleFont = pygame.font.Font("fonts/redrocket.ttf", 60)
+		titleFont = pygame.font.Font("fonts/redrocket.ttf", 72)
 		self.title = titleFont.render("Rocket Ascent", True, (0, 0, 0))
 
 		self.rockets = []
 		for i in range(0, 5):
-			data = (pygame.transform.scale(pygame.image.load("images/ship.png"), (100, 200)), [random.randrange(0, self.window.get_width()), random.randrange(0, self.window.get_height())])
+			img = pygame.image.load("images/ship.png")
+			scale = 1
+			scalex = 100.0*scale/img.get_width()
+			scaley = 200.0*scale/img.get_height()
+			img = pygame.transform.scale(img, (int(img.get_width()*scalex), int(img.get_height()*scaley)))
+			flame = pygame.image.load("images/fire.png")
+			flame = pygame.transform.scale(flame, (int(flame.get_width()*scalex), int(flame.get_height()*scaley)))
+
+			surf = pygame.Surface((img.get_width(), img.get_height()+flame.get_height())).convert_alpha()
+			surf.fill((0,0,0,0))
+
+			surf.blit(flame, (int(img.get_width() / 2 - flame.get_width() / 2), int(img.get_height() * 0.748)))
+			surf.blit(img, (int(surf.get_width() / 2 - img.get_width() / 2), 0))
+			data = (surf, [random.randrange(0, self.window.get_width()), random.randrange(0, self.window.get_height())])
 			self.rockets.append(data)
 
 	def loop(self):
