@@ -33,7 +33,7 @@ class MainMenu(object):
 
 		self.rockets = []
 		for i in range(0, 20):
-			data = (pygame.transform.scale(pygame.image.load("dev/patesship.png"), (20, 40)), [random.randrange(0, self.window.get_width()), random.randrange(0, self.window.get_height())])
+			data = (pygame.transform.scale(pygame.image.load("images/ship.png"), (20, 40)), [random.randrange(0, self.window.get_width()), random.randrange(0, self.window.get_height())])
 			self.rockets.append(data)
 
 	def loop(self):
@@ -73,7 +73,7 @@ class MainMenu(object):
 			pygame.display.update()
 
 def main():
-	menubuttons = [["Play", maingame.main], ["Quit", lambda x=None: pygame.event.post(pygame.event.Event(QUIT))], ["Print Hello", lambda x=None: print("Hello")]]
+	menubuttons = [["Play", maingame.main], ["Quit", lambda x=None: pygame.event.post(pygame.event.Event(QUIT))]]
 	menu = MainMenu(menubuttons)
 	menu.loop()
 
