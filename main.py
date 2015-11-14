@@ -53,7 +53,8 @@ class Launch():
 
 			elif event.type == KEYDOWN:
 				if event.key == K_ESCAPE:
-					pygame.event.post(pygame.event.Event(QUIT))
+					self.reset()
+					from mainmenu import *
 
 				elif event.key == K_r:
 					self.rocket.__init__("dev/patesship.png")
@@ -101,6 +102,9 @@ class Launch():
 		self.rocket.draw(self.window)
 
 		pygame.display.update()
+
+	def reset(self):
+		pass
 
 def main():
 	launch = Launch()
